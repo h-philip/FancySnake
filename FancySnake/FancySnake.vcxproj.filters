@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Resource Files\Audio">
+      <UniqueIdentifier>{444045d4-5ec5-43d1-b36e-b5cf293d9170}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -27,6 +30,12 @@
     <ClCompile Include="CookieManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ConfigParser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Helper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Snake.h">
@@ -38,5 +47,63 @@
     <ClInclude Include="CookieManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ConfigParser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Helper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="Audio\Nuttöö1.wav">
+      <Filter>Resource Files\Audio</Filter>
+    </Media>
+    <Media Include="Audio\Nuttöö2.wav">
+      <Filter>Resource Files\Audio</Filter>
+    </Media>
+    <Media Include="Audio\Nuttöö3.wav">
+      <Filter>Resource Files\Audio</Filter>
+    </Media>
+    <Media Include="Audio\Nuttöö4.wav">
+      <Filter>Resource Files\Audio</Filter>
+    </Media>
+    <Media Include="Audio\Nuttöö5.wav">
+      <Filter>Resource Files\Audio</Filter>
+    </Media>
+    <Media Include="Audio\Nuttöö6.wav">
+      <Filter>Resource Files\Audio</Filter>
+    </Media>
+    <Media Include="Audio\Nuttöö7.wav">
+      <Filter>Resource Files\Audio</Filter>
+    </Media>
+    <Media Include="Audio\Nuttöö8.wav">
+      <Filter>Resource Files\Audio</Filter>
+    </Media>
+    <Media Include="Audio\Nuttöö9.wav">
+      <Filter>Resource Files\Audio</Filter>
+    </Media>
+    <Media Include="Audio\Nuttöö10.wav">
+      <Filter>Resource Files\Audio</Filter>
+    </Media>
+    <Media Include="Audio\Nuttöö11.wav">
+      <Filter>Resource Files\Audio</Filter>
+    </Media>
+    <Media Include="Audio\Nuttöö12.wav">
+      <Filter>Resource Files\Audio</Filter>
+    </Media>
+    <Media Include="Audio\Nuttöö13.wav">
+      <Filter>Resource Files\Audio</Filter>
+    </Media>
+    <Media Include="Audio\Nuttöö14.wav">
+      <Filter>Resource Files\Audio</Filter>
+    </Media>
+    <Media Include="Audio\Nuttöö15.wav">
+      <Filter>Resource Files\Audio</Filter>
+    </Media>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="settings.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>

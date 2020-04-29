@@ -5,10 +5,18 @@ const std::string CookieManager::AUDIO_FILE_PREFIX = "Nutt";
 
 const std::string CookieManager::AUDIO_FILE_SUFFIX = ".wav";
 
-CookieManager::CookieManager(const sf::FloatRect& spawn_area)
+CookieManager::CookieManager(const sf::FloatRect& spawn_area,
+                             std::map<std::string, std::string>& settings)
     : cookie(SnakeSegment::size), spawn_area(spawn_area) {
+  // Settings
+  if (settings.find("color-cookie") != settings.end()) {
+    sf::Color tmp = Helper::stringToColor(settings["color-cookie"]);
+    if (tmp.r != 1) color = tmp;
+  }
+
+  // Cookie
   srand((unsigned int)time(NULL));
-  cookie.setFillColor(DEFAULT_COLOR);
+  cookie.setFillColor(color);
 
   cookie.setOrigin(SnakeSegment::size * .5f);
   respawnCookie();
@@ -48,10 +56,8 @@ void CookieManager::draw(sf::RenderTarget& target) { target.draw(cookie); }
 void CookieManager::respawnCookie() {
   sf::Vector2f pos(spawn_area.left, spawn_area.top);
   pos += SnakeSegment::size * .5f;
-  pos.x +=
-      (float)(rand() % (int)(spawn_area.width - SnakeSegment::size.x));
-  pos.y +=
-      (float)(rand() % (int)(spawn_area.height - SnakeSegment::size.y));
+  pos.x += (float)(rand() % (int)(spawn_area.width - SnakeSegment::size.x));
+  pos.y += (float)(rand() % (int)(spawn_area.height - SnakeSegment::size.y));
 
   cookie.setPosition(pos);
 }

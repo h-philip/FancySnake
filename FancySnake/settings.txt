@@ -1,0 +1,46 @@
+# Settings file for FancySnake / Nuttööö
+
+###
+## Window
+###
+
+# Window's size
+window-width=1200
+window-height=900
+
+###
+## Snake
+###
+
+# Snake's size in points
+# Default: 20
+snake-size=20
+
+# Speed in ms/point
+# Smaller numbers -> higher speed
+# Default: 5
+snake-speed=5
+
+###
+## Colors
+###
+
+# Possible values are:
+# Black, White, Red, Green, Blue, Yellow, Magenta, Cyan
+# Case sensitive!
+
+# Head color
+# Default: Blue
+color-head=Blue
+
+# Body color
+# Default: Magenta
+color-head=Magenta
+
+# Cookie color
+# Default: Cyan
+color-cookie=Cyan
+
+# Background color
+# Default: White
+color-background=White

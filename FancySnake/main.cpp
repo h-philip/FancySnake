@@ -3,21 +3,38 @@
 #include <iostream>
 #include <thread>
 
+#include "ConfigParser.h"
 #include "CookieManager.h"
 #include "Snake.h"
+#include "Helper.h"
 
 int main() {
-  sf::RenderWindow window(sf::VideoMode(900, 900), "Nuttööö");
+  // Settings
+  std::map<std::string, std::string> settings =
+      ConfigParser::parse("settings.txt");
+  sf::Color background_color = sf::Color::White;
+  if (settings.find("color-background") != settings.end()) {
+    sf::Color tmp = Helper::stringToColor(settings["color-background"]);
+    if (tmp.r != 1) background_color = tmp;
+  }
 
+  // Window
+  int width = 900, height = 900;
+  if (settings.find("window-width") != settings.end())
+    width = atoi(settings["window-width"].c_str());
+  if (settings.find("window-height") != settings.end())
+    height = atoi(settings["window-height"].c_str());
+  sf::RenderWindow window(sf::VideoMode(width, height), "Nuttööö");
+
+  // Snake and Cookies
   sf::Vector2f start_pos = window.getView().getCenter();
-  Snake snake(start_pos);
+  Snake snake(start_pos, settings);
   const float BORDER_WIDTH = 20.f;
   CookieManager cm(sf::FloatRect(BORDER_WIDTH, BORDER_WIDTH,
                                  window.getSize().x - BORDER_WIDTH * 2.f,
-                                 window.getSize().y - BORDER_WIDTH * 2.f));
+                                 window.getSize().y - BORDER_WIDTH * 2.f), settings);
 
   bool game_over = false;
-
   sf::Clock update_clock;
   while (window.isOpen()) {
     // Events
@@ -86,9 +103,8 @@ int main() {
     // Check for hitting borders
     const sf::FloatRect& head = snake.head->getGlobalBounds();
     if (head.left < 0 ||
-        head.left + SnakeSegment::DEFAULT_SIZE.x > window.getSize().x ||
-        head.top < 0 ||
-        head.top + SnakeSegment::DEFAULT_SIZE.y > window.getSize().y) {
+        head.left + SnakeSegment::size.x > window.getSize().x || head.top < 0 ||
+        head.top + SnakeSegment::size.y > window.getSize().y) {
       game_over |= true;
     }
 
@@ -100,7 +116,7 @@ int main() {
     }
 
     // Draws
-    window.clear(sf::Color::White);
+    window.clear(background_color);
     snake.draw(window);
     cm.draw(window);
     window.display();

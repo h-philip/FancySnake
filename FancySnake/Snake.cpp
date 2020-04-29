@@ -1,6 +1,25 @@
 #include "Snake.h"
 
-Snake::Snake(const sf::Vector2f& position, int length) {
+Snake::Snake(const sf::Vector2f& position,
+             std::map<std::string, std::string>& settings, int length) {
+  // Settings
+  if (settings.find("snake-speed") != settings.end()) {
+    SnakeSegment::speed =
+        sf::milliseconds(atoi(settings["snake-speed"].c_str()));
+  }
+  if (settings.find("snake-size") != settings.end()) {
+    SnakeSegment::size.y =
+        (SnakeSegment::size.x = (float)atoi(settings["snake-size"].c_str()));
+  }
+  if (settings.find("color-head") != settings.end()) {
+    sf::Color tmp = Helper::stringToColor(settings["color-head"]);
+    if (tmp.r != 1) SnakeSegment::head_color = tmp;
+  }
+  if (settings.find("color-body") != settings.end()) {
+    sf::Color tmp = Helper::stringToColor(settings["color-body"]);
+    if (tmp.r != 1) SnakeSegment::body_color = tmp;
+  }
+
   head = new SnakeSegment(nullptr);
   head->setPosition(position);
   end = head;
@@ -9,6 +28,10 @@ Snake::Snake(const sf::Vector2f& position, int length) {
     end->next = tmp;
     end = tmp;
   }
+
+  // Because size might change after definition
+  SnakeSegment::body_distance = SnakeSegment::size.x * 1.f;
+  ;
 }
 
 Snake::~Snake() {

@@ -2,19 +2,19 @@
 
 #include <iostream>
 
-const sf::Vector2f SnakeSegment::DEFAULT_SIZE = sf::Vector2f(20, 20);
-const sf::Color SnakeSegment::DEFAULT_COLOR = sf::Color::Blue;
-const sf::Color SnakeSegment::DEFAULT_HEAD_COLOR = sf::Color::Red;
-const float SnakeSegment::BODY_DISTANCE = DEFAULT_SIZE.x * 1.f;
-sf::Time SnakeSegment::speed = sf::milliseconds(8);
+sf::Color SnakeSegment::body_color = sf::Color::Magenta;
+sf::Color SnakeSegment::head_color = sf::Color::Blue;
+float SnakeSegment::body_distance = size.x * 1.f;
+sf::Vector2f SnakeSegment::size = sf::Vector2f(20, 20);
+sf::Time SnakeSegment::speed = sf::milliseconds(5);
 
 SnakeSegment::SnakeSegment(SnakeSegment* prev) : prev(prev) {
   if (prev == nullptr)  // Head
-    setFillColor(DEFAULT_HEAD_COLOR);
+    setFillColor(head_color);
   else  // Body
-    setFillColor(DEFAULT_COLOR);
-  setSize(DEFAULT_SIZE);
-  setOrigin(DEFAULT_SIZE * .5f);
+    setFillColor(body_color);
+  setSize(size);
+  setOrigin(size * .5f);
 
   if (prev) setPosition(prev->getPosition());
 
@@ -35,7 +35,7 @@ bool SnakeSegment::update(sf::Time time) {
     dir = *(goto_points.front()) - getPosition();
   } else {
     dir = prev->getPosition() - getPosition();
-    if (sqrt(pow(dir.x, 2) + pow(dir.y, 2)) <= BODY_DISTANCE) return true;
+    if (sqrt(pow(dir.x, 2) + pow(dir.y, 2)) <= body_distance) return true;
   }
 
   return update(time, dir);
@@ -61,7 +61,7 @@ bool SnakeSegment::update(sf::Time time, const sf::Vector2f& direction) {
 
   // The path to go
   float path = !goto_points.empty() ? fminf(length, points)
-                                    : (prev ? length - BODY_DISTANCE : points);
+                                    : (prev ? length - body_distance : points);
 
   // Move
   move(path * n_dir);
@@ -88,7 +88,8 @@ bool SnakeSegment::update(sf::Time time, const sf::Vector2f& direction) {
       if (getGlobalBounds().intersects(seg->getGlobalBounds())) {
         // Snake collides with own body
         // -> Double check with another body part
-        // This is to prevent instant death when spawning with multiple body parts
+        // This is to prevent instant death when spawning with multiple body
+        // parts
         if (!next->getGlobalBounds().intersects(seg->getGlobalBounds()))
           return false;
       }

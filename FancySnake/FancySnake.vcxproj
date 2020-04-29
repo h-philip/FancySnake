@@ -150,15 +150,39 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ConfigParser.cpp" />
     <ClCompile Include="CookieManager.cpp" />
+    <ClCompile Include="Helper.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Snake.cpp" />
     <ClCompile Include="SnakeSegment.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ConfigParser.h" />
     <ClInclude Include="CookieManager.h" />
+    <ClInclude Include="Helper.h" />
     <ClInclude Include="Snake.h" />
     <ClInclude Include="SnakeSegment.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="Audio\Nuttöö1.wav" />
+    <Media Include="Audio\Nuttöö10.wav" />
+    <Media Include="Audio\Nuttöö11.wav" />
+    <Media Include="Audio\Nuttöö12.wav" />
+    <Media Include="Audio\Nuttöö13.wav" />
+    <Media Include="Audio\Nuttöö14.wav" />
+    <Media Include="Audio\Nuttöö15.wav" />
+    <Media Include="Audio\Nuttöö2.wav" />
+    <Media Include="Audio\Nuttöö3.wav" />
+    <Media Include="Audio\Nuttöö4.wav" />
+    <Media Include="Audio\Nuttöö5.wav" />
+    <Media Include="Audio\Nuttöö6.wav" />
+    <Media Include="Audio\Nuttöö7.wav" />
+    <Media Include="Audio\Nuttöö8.wav" />
+    <Media Include="Audio\Nuttöö9.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="settings.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
