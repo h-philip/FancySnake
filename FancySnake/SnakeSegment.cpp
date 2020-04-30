@@ -4,7 +4,7 @@
 
 sf::Color SnakeSegment::body_color = sf::Color::Magenta;
 sf::Color SnakeSegment::head_color = sf::Color::Blue;
-float SnakeSegment::body_distance = size.x * 1.f;
+float SnakeSegment::body_distance = 0;
 sf::Vector2f SnakeSegment::size = sf::Vector2f(20, 20);
 sf::Time SnakeSegment::speed = sf::milliseconds(5);
 
@@ -35,7 +35,7 @@ bool SnakeSegment::update(sf::Time time) {
     dir = *(goto_points.front()) - getPosition();
   } else {
     dir = prev->getPosition() - getPosition();
-    if (sqrt(pow(dir.x, 2) + pow(dir.y, 2)) <= body_distance) return true;
+    if (sqrt(pow(dir.x, 2) + pow(dir.y, 2)) <= body_distance + .0001f) return true;
   }
 
   return update(time, dir);

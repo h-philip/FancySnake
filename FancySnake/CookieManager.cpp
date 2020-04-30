@@ -54,6 +54,8 @@ bool CookieManager::update(Snake& snake) {
 void CookieManager::draw(sf::RenderTarget& target) { target.draw(cookie); }
 
 void CookieManager::respawnCookie() {
+  // TODO: Don't spawn inside snake
+  
   sf::Vector2f pos(spawn_area.left, spawn_area.top);
   pos += SnakeSegment::size * .5f;
   pos.x += (float)(rand() % (int)(spawn_area.width - SnakeSegment::size.x));
