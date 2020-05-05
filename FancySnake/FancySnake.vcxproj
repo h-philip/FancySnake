@@ -154,6 +154,8 @@
     <ClCompile Include="CookieManager.cpp" />
     <ClCompile Include="Helper.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="MenuButton.cpp" />
     <ClCompile Include="Snake.cpp" />
     <ClCompile Include="SnakeSegment.cpp" />
   </ItemGroup>
@@ -161,6 +163,8 @@
     <ClInclude Include="ConfigParser.h" />
     <ClInclude Include="CookieManager.h" />
     <ClInclude Include="Helper.h" />
+    <ClInclude Include="Menu.h" />
+    <ClInclude Include="MenuButton.h" />
     <ClInclude Include="Snake.h" />
     <ClInclude Include="SnakeSegment.h" />
   </ItemGroup>

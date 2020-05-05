@@ -5,8 +5,9 @@
 
 #include "ConfigParser.h"
 #include "CookieManager.h"
-#include "Snake.h"
 #include "Helper.h"
+#include "Menu.h"
+#include "Snake.h"
 
 int main() {
   // Settings
@@ -26,13 +27,18 @@ int main() {
     height = atoi(settings["window-height"].c_str());
   sf::RenderWindow window(sf::VideoMode(width, height), "Nuttööö");
 
+  // Menu
+  Menu menu(window.getSize());
+  Menu::State last_menu_state = menu.state;
+
   // Snake and Cookies
   sf::Vector2f start_pos = window.getView().getCenter();
-  Snake snake(start_pos, settings);
+  Snake* snake = new Snake(start_pos, settings);
   const float BORDER_WIDTH = 20.f;
   CookieManager cm(sf::FloatRect(BORDER_WIDTH, BORDER_WIDTH,
                                  window.getSize().x - BORDER_WIDTH * 2.f,
-                                 window.getSize().y - BORDER_WIDTH * 2.f), settings);
+                                 window.getSize().y - BORDER_WIDTH * 2.f),
+                   settings);
 
   bool game_over = false;
   sf::Clock update_clock;
@@ -41,6 +47,19 @@ int main() {
     sf::Event event;
     while (window.pollEvent(event)) {
       switch (event.type) {
+        //// Menu
+        case sf::Event::MouseMoved:
+          menu.update(window.mapPixelToCoords(
+                          sf::Vector2i(event.mouseMove.x, event.mouseMove.y)),
+                      false);
+          break;
+
+        case sf::Event::MouseButtonReleased:
+          menu.update(window.mapPixelToCoords(sf::Vector2i(
+                          event.mouseButton.x, event.mouseButton.y)),
+                      true);
+          break;
+
         case sf::Event::Closed:
           window.close();
           break;
@@ -49,7 +68,11 @@ int main() {
           switch (event.key.code) {
             // Exit
             case sf::Keyboard::Escape:
-              window.close();
+              if (menu.state == Menu::State::InGame)
+                menu.state = Menu::State::InGameMenu;
+              else if (menu.state == Menu::State::InGameMenu)
+                menu.state = Menu::State::InGame;
+
               break;
 
               // Go faster
@@ -68,24 +91,33 @@ int main() {
               //// Directions
             case sf::Keyboard::W:
             case sf::Keyboard::Up:
-              snake.setDir(sf::Vector2f(0, -1));
+              snake->setDir(sf::Vector2f(0, -1));
               break;
 
             case sf::Keyboard::A:
             case sf::Keyboard::Left:
-              snake.setDir(sf::Vector2f(-1, 0));
+              snake->setDir(sf::Vector2f(-1, 0));
               break;
 
             case sf::Keyboard::D:
             case sf::Keyboard::Right:
-              snake.setDir(sf::Vector2f(1, 0));
+              snake->setDir(sf::Vector2f(1, 0));
               break;
 
             case sf::Keyboard::S:
             case sf::Keyboard::Down:
-              snake.setDir(sf::Vector2f(0, 1));
+              snake->setDir(sf::Vector2f(0, 1));
               break;
           }
+      }
+    }
+
+    // Reset snake if new game
+    if (menu.state == Menu::State::InGame) {
+      if (last_menu_state == Menu::State::MainMenu) {
+        delete snake;
+        snake = new Snake(start_pos, settings);
+        cm.respawnCookie();
       }
     }
 
@@ -96,17 +128,20 @@ int main() {
     if (time.asSeconds() > 1) time = sf::seconds(1);
 
     // Updates
+    if (menu.state == Menu::State::InGame) {
+      game_over |= !snake->update(time);
+      cm.update(snake);
 
-    game_over |= !snake.update(time);
-    cm.update(snake);
-
-    // Check for hitting borders
-    const sf::FloatRect& head = snake.head->getGlobalBounds();
-    if (head.left < 0 ||
-        head.left + SnakeSegment::size.x > window.getSize().x || head.top < 0 ||
-        head.top + SnakeSegment::size.y > window.getSize().y) {
-      game_over |= true;
-    }
+      // Check for hitting borders
+      const sf::FloatRect& head = snake->head->getGlobalBounds();
+      if (head.left < 0 ||
+          head.left + SnakeSegment::size.x > window.getSize().x ||
+          head.top < 0 ||
+          head.top + SnakeSegment::size.y > window.getSize().y) {
+        game_over |= true;
+      }
+    } else if (menu.state == Menu::State::Exit)
+      window.close();
 
     // Check for game_over
     if (game_over) {
@@ -117,8 +152,19 @@ int main() {
 
     // Draws
     window.clear(background_color);
-    snake.draw(window);
-    cm.draw(window);
+    if (menu.state == Menu::State::InGame ||
+        menu.state == Menu::State::InGameMenu ||
+        menu.state == Menu::State::GameOver) {
+      snake->draw(window);
+      cm.draw(window);
+    }
+    if (menu.state != Menu::State::InGame) menu.draw(window);
     window.display();
+
+    // Menu state
+    last_menu_state = menu.state;
   }
+
+  // Delete
+  delete snake;
 }

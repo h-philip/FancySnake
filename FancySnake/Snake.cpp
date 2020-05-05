@@ -31,7 +31,6 @@ Snake::Snake(const sf::Vector2f& position,
 
   // Because size might change after definition
   SnakeSegment::body_distance = SnakeSegment::size.x * 1.f;
-  ;
 }
 
 Snake::~Snake() {

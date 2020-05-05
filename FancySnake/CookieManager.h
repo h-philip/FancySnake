@@ -17,13 +17,13 @@ class CookieManager {
   CookieManager(const sf::FloatRect& spawn_area,
                 std::map<std::string, std::string>& settings);
 
-  bool update(Snake& snake);
+  bool update(Snake* snake);
 
   void draw(sf::RenderTarget& target);
 
- private:
   void respawnCookie();
 
+ private:
   sf::FloatRect spawn_area;
   sf::RectangleShape cookie;
   sf::SoundBuffer audio_buffers[FILES_AMOUNT];

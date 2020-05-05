@@ -31,12 +31,12 @@ CookieManager::CookieManager(const sf::FloatRect& spawn_area,
   srand((int)time(NULL));
 }
 
-bool CookieManager::update(Snake& snake) {
-  if (snake.head->getGlobalBounds().intersects(cookie.getGlobalBounds())) {
+bool CookieManager::update(Snake* snake) {
+  if (snake->head->getGlobalBounds().intersects(cookie.getGlobalBounds())) {
     // Add body to snake
-    SnakeSegment* new_segment = new SnakeSegment(snake.end);
-    snake.end->next = new_segment;
-    snake.end = new_segment;
+    SnakeSegment* new_segment = new SnakeSegment(snake->end);
+    snake->end->next = new_segment;
+    snake->end = new_segment;
 
     // Sound
     int index = rand() % FILES_AMOUNT;
