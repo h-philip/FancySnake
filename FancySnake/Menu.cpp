@@ -6,6 +6,10 @@ Menu::Menu(const sf::Vector2u& window_size) {
   // Font
   font.loadFromFile("SlimSansSerif.ttf");
 
+  // Sound
+  sound_buffer.loadFromFile(CLICK_SOUND_FILE);
+  sound.setBuffer(sound_buffer);
+
   // Buttons
   sf::Vector2f size(window_size.x * .5f, window_size.y * .1f);
   sf::Vector2f start_pos(window_size.x * .5f, window_size.y * .25f);
@@ -62,7 +66,7 @@ Menu::Menu(const sf::Vector2u& window_size) {
       MenuButton(sf::FloatRect(start_pos, size), std::string("Main Menu"), font,
                  this, (uint8_t)Action::BackToMenu);
   // Exit to desktop
-  start_pos.y += size.x * 2.f;
+  start_pos.y += size.y * 2.f;
   game_over_buttons[1] =
       MenuButton(sf::FloatRect(start_pos, size), std::string("Desktop"), font,
                  this, (uint8_t)Action::ExitToDesktop);
@@ -131,7 +135,8 @@ void Menu::draw(sf::RenderTarget& target) const {
   }
 }
 
-void Menu::doAction(uint8_t action) {
+void Menu::doAction(const MenuButton* sender, uint8_t action) {
+  sound.play();
   switch ((Action)action) {
     case Action::StartSinglePlayer:
       state = State::InGame;

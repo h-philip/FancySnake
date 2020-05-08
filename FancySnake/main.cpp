@@ -145,9 +145,8 @@ int main() {
 
     // Check for game_over
     if (game_over) {
-      std::cout << "Game Over!" << std::endl;
-      window.close();
-      continue;
+      menu.state = Menu::State::GameOver;
+      game_over = false;
     }
 
     // Draws

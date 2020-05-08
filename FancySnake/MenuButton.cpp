@@ -5,7 +5,7 @@
 MenuButton::MenuButton() : menu(nullptr) {}
 
 MenuButton::MenuButton(const sf::FloatRect& rect, std::string text,
-                       const sf ::Font& font, Menu* menu, uint8_t action)
+                       const sf::Font& font, Menu* menu, uint8_t action)
     : rect(sf::Vector2f(rect.width, rect.height)),
       text(text, font),
       menu(menu),
@@ -28,7 +28,7 @@ void MenuButton::update(const sf::Vector2f& mouse_pos, bool mouse_pressed) {
 
     // If clicked, trigger function
     if (mouse_pressed) {
-      menu->doAction(action);
+      menu->doAction(this, action);
     }
   } else {
     this->rect.setFillColor(sf::Color(100, 100, 100));

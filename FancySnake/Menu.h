@@ -1,6 +1,7 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 
 #include "MenuButton.h"
 
@@ -17,6 +18,8 @@ class Menu {
     BackToMenu
   };
 
+  const std::string CLICK_SOUND_FILE = "Audio/click.wav";
+
   State state = State::MainMenu;
 
   Menu(const sf::Vector2u& window_size);
@@ -25,10 +28,12 @@ class Menu {
 
   void draw(sf::RenderTarget& target) const;
 
-  void doAction(uint8_t action);
+  void doAction(const MenuButton* sender, uint8_t action);
 
  private:
   sf::Font font;
+  sf::SoundBuffer sound_buffer;
+  sf::Sound sound;
 
   // Buttons for the main menu
   MenuButton main_menu_buttons[4];
