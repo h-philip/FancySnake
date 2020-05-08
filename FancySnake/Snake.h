@@ -10,7 +10,7 @@ class Snake {
   SnakeSegment *head, *end;
 
   Snake(const sf::Vector2f& position,
-        std::map<std::string, std::string>& settings, int length = 1);
+        std::map<std::string, std::string>& settings, int length = 1, bool second = false);
   ~Snake();
 
   bool update(sf::Time time);

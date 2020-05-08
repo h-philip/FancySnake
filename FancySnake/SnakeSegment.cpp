@@ -35,7 +35,8 @@ bool SnakeSegment::update(sf::Time time) {
     dir = *(goto_points.front()) - getPosition();
   } else {
     dir = prev->getPosition() - getPosition();
-    if (sqrt(pow(dir.x, 2) + pow(dir.y, 2)) <= body_distance + .0001f) return true;
+    if (sqrt(pow(dir.x, 2) + pow(dir.y, 2)) <= body_distance + .0001f)
+      return true;
   }
 
   return update(time, dir);
@@ -92,6 +93,17 @@ bool SnakeSegment::update(sf::Time time, const sf::Vector2f& direction) {
         // parts
         if (!next->getGlobalBounds().intersects(seg->getGlobalBounds()))
           return false;
+      }
+      seg = seg->next;
+    }
+  }
+  // 2nd snake
+  if (second_head) {
+    SnakeSegment* seg = second_head;
+    while (seg) {
+      if (getGlobalBounds().intersects(seg->getGlobalBounds())) {
+        // Snake collides with other snake
+        return false;
       }
       seg = seg->next;
     }

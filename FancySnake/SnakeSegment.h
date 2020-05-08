@@ -16,6 +16,8 @@ class SnakeSegment : public sf::RectangleShape {
   std::queue<sf::Vector2f*> goto_points;
   SnakeSegment *next = nullptr, *prev;
 
+  SnakeSegment* second_head = nullptr; // Head of other (multiplayer) snake
+
   SnakeSegment(SnakeSegment* prev);
   ~SnakeSegment();
 

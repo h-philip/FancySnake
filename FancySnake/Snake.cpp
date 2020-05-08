@@ -1,7 +1,8 @@
 #include "Snake.h"
 
 Snake::Snake(const sf::Vector2f& position,
-             std::map<std::string, std::string>& settings, int length) {
+             std::map<std::string, std::string>& settings, int length,
+             bool second) {
   // Settings
   if (settings.find("snake-speed") != settings.end()) {
     SnakeSegment::speed =
@@ -11,13 +12,27 @@ Snake::Snake(const sf::Vector2f& position,
     SnakeSegment::size.y =
         (SnakeSegment::size.x = (float)atoi(settings["snake-size"].c_str()));
   }
-  if (settings.find("color-head") != settings.end()) {
-    sf::Color tmp = Helper::stringToColor(settings["color-head"]);
-    if (tmp.r != 1) SnakeSegment::head_color = tmp;
-  }
-  if (settings.find("color-body") != settings.end()) {
-    sf::Color tmp = Helper::stringToColor(settings["color-body"]);
-    if (tmp.r != 1) SnakeSegment::body_color = tmp;
+
+  if (second) {
+    // Second snake (multiplayer)
+    if (settings.find("color-head-2") != settings.end()) {
+      sf::Color tmp = Helper::stringToColor(settings["color-head-2"]);
+      if (tmp.r != 1) SnakeSegment::head_color = tmp;
+    }
+    if (settings.find("color-body-2") != settings.end()) {
+      sf::Color tmp = Helper::stringToColor(settings["color-body-2"]);
+      if (tmp.r != 1) SnakeSegment::body_color = tmp;
+    }
+  } else {
+    // Main snake
+    if (settings.find("color-head") != settings.end()) {
+      sf::Color tmp = Helper::stringToColor(settings["color-head"]);
+      if (tmp.r != 1) SnakeSegment::head_color = tmp;
+    }
+    if (settings.find("color-body") != settings.end()) {
+      sf::Color tmp = Helper::stringToColor(settings["color-body"]);
+      if (tmp.r != 1) SnakeSegment::body_color = tmp;
+    }
   }
 
   head = new SnakeSegment(nullptr);

@@ -139,10 +139,12 @@ void Menu::doAction(const MenuButton* sender, uint8_t action) {
   sound.play();
   switch ((Action)action) {
     case Action::StartSinglePlayer:
+      local_multiplayer = false;
       state = State::InGame;
       break;
 
     case Action::StartLocalMultiPlayer:
+      local_multiplayer = true;
       state = State::InGame;
       break;
 

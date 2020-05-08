@@ -1,7 +1,7 @@
 #pragma once
 
-#include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
+#include <SFML/Graphics.hpp>
 
 #include "MenuButton.h"
 
@@ -30,10 +30,14 @@ class Menu {
 
   void doAction(const MenuButton* sender, uint8_t action);
 
+  bool isLocalMultiplayer() const { return local_multiplayer; }
+
  private:
   sf::Font font;
   sf::SoundBuffer sound_buffer;
   sf::Sound sound;
+
+  bool local_multiplayer = false;
 
   // Buttons for the main menu
   MenuButton main_menu_buttons[4];
