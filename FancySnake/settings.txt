@@ -26,8 +26,12 @@ snake-speed=5
 ###
 
 # Possible values are:
-# Black, White, Red, Green, Blue, Yellow, Magenta, Cyan
-# Case sensitive!
+# Black, White, Red, Green, Blue, Yellow, Magenta, Cyan, Orange
+# You can also use rgb codes (including the paranthesis):
+# (r,g,b)
+# Example:
+# color-x=(0,200,50)
+
 
 # Head color
 # Default: Blue

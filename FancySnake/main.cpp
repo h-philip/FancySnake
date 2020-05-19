@@ -3,29 +3,18 @@
 #include <iostream>
 #include <thread>
 
-#include "ConfigParser.h"
 #include "CookieManager.h"
-#include "Helper.h"
 #include "Menu.h"
 #include "Snake.h"
+#include "Settings.h"
 
 int main() {
   // Settings
-  std::map<std::string, std::string> settings =
-      ConfigParser::parse("settings.txt");
-  sf::Color background_color = sf::Color::White;
-  if (settings.find("color-background") != settings.end()) {
-    sf::Color tmp = Helper::stringToColor(settings["color-background"]);
-    if (tmp.r != 1) background_color = tmp;
-  }
+  Settings settings("settings.txt");
+  sf::Color& background_color = settings.color_background;
 
   // Window
-  int width = 900, height = 900;
-  if (settings.find("window-width") != settings.end())
-    width = atoi(settings["window-width"].c_str());
-  if (settings.find("window-height") != settings.end())
-    height = atoi(settings["window-height"].c_str());
-  sf::RenderWindow window(sf::VideoMode(width, height), "Nuttööö");
+  sf::RenderWindow window(sf::VideoMode(settings.window_width, settings.window_height), "Nuttööö");
 
   // Menu
   Menu menu(window.getSize());
@@ -141,7 +130,7 @@ int main() {
         if (menu.isLocalMultiplayer()) {
           lm_snake =
               new Snake(start_pos - sf::Vector2f(0, SnakeSegment::size.x * 2.f),
-                        settings, true);
+                        settings, 1, true);
           lm_snake->head->second_head = snake->head;
           snake->head->second_head = lm_snake->head;
         } else {

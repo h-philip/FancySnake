@@ -1,45 +1,26 @@
 #include "Snake.h"
 
-Snake::Snake(const sf::Vector2f& position,
-             std::map<std::string, std::string>& settings, int length,
+Snake::Snake(const sf::Vector2f& position, Settings& settings, int length,
              bool second) {
   // Settings
-  if (settings.find("snake-speed") != settings.end()) {
-    SnakeSegment::speed =
-        sf::milliseconds(atoi(settings["snake-speed"].c_str()));
-  }
-  if (settings.find("snake-size") != settings.end()) {
-    SnakeSegment::size.y =
-        (SnakeSegment::size.x = (float)atoi(settings["snake-size"].c_str()));
-  }
+  SnakeSegment::speed = settings.snake_speed;
+  SnakeSegment::size.y = (SnakeSegment::size.x = (float)settings.snake_size);
 
   if (second) {
     // Second snake (multiplayer)
-    if (settings.find("color-head-2") != settings.end()) {
-      sf::Color tmp = Helper::stringToColor(settings["color-head-2"]);
-      if (tmp.r != 1) SnakeSegment::head_color = tmp;
-    }
-    if (settings.find("color-body-2") != settings.end()) {
-      sf::Color tmp = Helper::stringToColor(settings["color-body-2"]);
-      if (tmp.r != 1) SnakeSegment::body_color = tmp;
-    }
+    color_body = settings.color_snake_body_2;
+    color_head = settings.color_snake_head_2;
   } else {
     // Main snake
-    if (settings.find("color-head") != settings.end()) {
-      sf::Color tmp = Helper::stringToColor(settings["color-head"]);
-      if (tmp.r != 1) SnakeSegment::head_color = tmp;
-    }
-    if (settings.find("color-body") != settings.end()) {
-      sf::Color tmp = Helper::stringToColor(settings["color-body"]);
-      if (tmp.r != 1) SnakeSegment::body_color = tmp;
-    }
+    color_body = settings.color_snake_body;
+    color_head = settings.color_snake_head;
   }
 
-  head = new SnakeSegment(nullptr);
+  head = new SnakeSegment(nullptr, color_head, color_body);
   head->setPosition(position);
   end = head;
   for (int i = 0; i < length; i++) {
-    SnakeSegment* tmp = new SnakeSegment(end);
+    SnakeSegment* tmp = new SnakeSegment(end, color_head, color_body);
     end->next = tmp;
     end = tmp;
   }

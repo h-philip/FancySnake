@@ -15,7 +15,7 @@ class CookieManager {
   sf::Color color = sf::Color::Cyan;
 
   CookieManager(const sf::FloatRect& spawn_area,
-                std::map<std::string, std::string>& settings);
+                Settings& settings);
 
   bool update(Snake* snake);
 

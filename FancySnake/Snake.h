@@ -2,15 +2,18 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "SnakeSegment.h"
 #include "Helper.h"
+#include "Settings.h"
+#include "SnakeSegment.h"
 
 class Snake {
  public:
   SnakeSegment *head, *end;
 
-  Snake(const sf::Vector2f& position,
-        std::map<std::string, std::string>& settings, int length = 1, bool second = false);
+  sf::Color color_head, color_body;
+
+  Snake(const sf::Vector2f& position, Settings& settings, int length = 1,
+        bool second = false);
   ~Snake();
 
   bool update(sf::Time time);

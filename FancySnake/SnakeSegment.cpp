@@ -2,13 +2,14 @@
 
 #include <iostream>
 
-sf::Color SnakeSegment::body_color = sf::Color::Magenta;
-sf::Color SnakeSegment::head_color = sf::Color::Blue;
-float SnakeSegment::body_distance = 0;
-sf::Vector2f SnakeSegment::size = sf::Vector2f(20, 20);
-sf::Time SnakeSegment::speed = sf::milliseconds(5);
+float SnakeSegment::body_distance = (float)Settings::DEFAULT_SNAKE_BODY_DISTANCE;
+sf::Vector2f SnakeSegment::size = sf::Vector2f(
+    (float)Settings::DEFAULT_SNAKE_SIZE, (float)Settings::DEFAULT_SNAKE_SIZE);
+sf::Time SnakeSegment::speed = Settings::DEFAULT_SNAKE_SPEED;
 
-SnakeSegment::SnakeSegment(SnakeSegment* prev) : prev(prev) {
+SnakeSegment::SnakeSegment(SnakeSegment* prev, const sf::Color& head_color,
+                           const sf::Color& body_color)
+    : prev(prev), head_color(head_color), body_color(body_color) {
   if (prev == nullptr)  // Head
     setFillColor(head_color);
   else  // Body

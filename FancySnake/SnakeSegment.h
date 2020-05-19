@@ -3,10 +3,12 @@
 #include <SFML/Graphics.hpp>
 #include <queue>
 
+#include "Settings.h"
+
 class SnakeSegment : public sf::RectangleShape {
  public:
-  static sf::Color body_color;
-  static sf::Color head_color;
+  const sf::Color& body_color;
+  const sf::Color& head_color;
   static float body_distance;
 
   // Speed in Time / point
@@ -16,9 +18,10 @@ class SnakeSegment : public sf::RectangleShape {
   std::queue<sf::Vector2f*> goto_points;
   SnakeSegment *next = nullptr, *prev;
 
-  SnakeSegment* second_head = nullptr; // Head of other (multiplayer) snake
+  SnakeSegment* second_head = nullptr;  // Head of other (multiplayer) snake
 
-  SnakeSegment(SnakeSegment* prev);
+  SnakeSegment(SnakeSegment* prev, const sf::Color& head_color,
+               const sf::Color& body_color);
   ~SnakeSegment();
 
   bool update(sf::Time time);
