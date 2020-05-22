@@ -164,8 +164,12 @@ powershell "Compress-Archive -Path ..\x64\Release -DestinationPath ..\x64\Nuttö
     <PostBuildEvent>
       <Message>Copy resources, zip and rename</Message>
     </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>del /Q ..\x64\Nuttööö.zip</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ActionButton.cpp" />
     <ClCompile Include="ConfigParser.cpp" />
     <ClCompile Include="CookieManager.cpp" />
     <ClCompile Include="Helper.cpp" />
@@ -173,16 +177,19 @@ powershell "Compress-Archive -Path ..\x64\Release -DestinationPath ..\x64\Nuttö
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="MenuButton.cpp" />
     <ClCompile Include="Settings.cpp" />
+    <ClCompile Include="SettingsButton.cpp" />
     <ClCompile Include="Snake.cpp" />
     <ClCompile Include="SnakeSegment.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ActionButton.h" />
     <ClInclude Include="ConfigParser.h" />
     <ClInclude Include="CookieManager.h" />
     <ClInclude Include="Helper.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="MenuButton.h" />
     <ClInclude Include="Settings.h" />
+    <ClInclude Include="SettingsButton.h" />
     <ClInclude Include="Snake.h" />
     <ClInclude Include="SnakeSegment.h" />
   </ItemGroup>
@@ -204,7 +211,7 @@ powershell "Compress-Archive -Path ..\x64\Release -DestinationPath ..\x64\Nuttö
     <Media Include="Audio\Nuttöö9.wav" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="settings.txt" />
+    <Text Include="settings.template.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

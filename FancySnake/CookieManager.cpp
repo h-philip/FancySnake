@@ -60,3 +60,7 @@ void CookieManager::respawnCookie() {
 
   cookie.setPosition(pos);
 }
+
+const sf::Vector2f& CookieManager::getPosition() {
+  return cookie.getPosition();
+}

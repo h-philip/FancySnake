@@ -2,8 +2,11 @@
 
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
+#include <iostream>
 
 #include "MenuButton.h"
+#include "SettingsButton.h"
+#include "ActionButton.h"
 
 class Menu {
  public:
@@ -22,13 +25,14 @@ class Menu {
 
   State state = State::MainMenu;
 
-  Menu(const sf::Vector2u& window_size);
+  Menu(const sf::Vector2u& window_size, Settings& settings);
+  ~Menu();
 
   void update(const sf::Vector2f& mouse_pos, bool mouse_pressed);
 
   void draw(sf::RenderTarget& target) const;
 
-  void doAction(const MenuButton* sender, uint8_t action);
+  void doAction(uint8_t action);
 
   bool isLocalMultiplayer() const { return local_multiplayer; }
 
@@ -40,14 +44,14 @@ class Menu {
   bool local_multiplayer = false;
 
   // Buttons for the main menu
-  MenuButton main_menu_buttons[4];
+  std::vector<MenuButton*> main_menu_buttons;
 
   // Buttons for the in game menu
-  MenuButton in_game_buttons[3];
+  std::vector<MenuButton*> in_game_buttons;
 
   // Buttons for the settings menu
-  MenuButton settings_buttons[1];
+  std::vector<MenuButton*> settings_buttons;
 
   // Buttons for the game over screen
-  MenuButton game_over_buttons[2];
+  std::vector<MenuButton*> game_over_buttons;
 };

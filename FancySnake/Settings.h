@@ -7,6 +7,9 @@
 
 class Settings {
  public:
+  typedef std::pair<std::string, sf::Color> color_p;
+  static std::vector<color_p> valid_colors;
+
   //// Default Values
   // Colors
   static const sf::Color DEFAULT_COLOR_BACKGROUND;

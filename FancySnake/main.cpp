@@ -5,8 +5,8 @@
 
 #include "CookieManager.h"
 #include "Menu.h"
-#include "Snake.h"
 #include "Settings.h"
+#include "Snake.h"
 
 int main() {
   // Settings
@@ -14,10 +14,11 @@ int main() {
   sf::Color& background_color = settings.color_background;
 
   // Window
-  sf::RenderWindow window(sf::VideoMode(settings.window_width, settings.window_height), "Nuttööö");
+  sf::RenderWindow window(
+      sf::VideoMode(settings.window_width, settings.window_height), "Nuttööö");
 
   // Menu
-  Menu menu(window.getSize());
+  Menu menu(window.getSize(), settings);
   Menu::State last_menu_state = menu.state;
 
   // Snake and Cookies
@@ -32,6 +33,7 @@ int main() {
 
   bool game_over = false;
   bool lm_game_over = false;
+  bool simple_bot_mode = false;
   sf::Clock update_clock;
   while (window.isOpen()) {
     // Events
@@ -137,7 +139,11 @@ int main() {
           lm_snake = nullptr;
         }
 
-        cm.respawnCookie();
+        cm = CookieManager(
+            sf::FloatRect(BORDER_WIDTH, BORDER_WIDTH,
+                          window.getSize().x - BORDER_WIDTH * 2.f,
+                          window.getSize().y - BORDER_WIDTH * 2.f),
+            settings);
       }
     }
 
@@ -149,6 +155,19 @@ int main() {
 
     // Updates
     if (menu.state == Menu::State::InGame) {
+      if (simple_bot_mode) {
+        // Bot enabled
+        const sf::Vector2f &s_pos = snake->head->getPosition(),
+                           &c_pos = cm.getPosition();
+        if (s_pos.x < c_pos.x - .5 * settings.snake_size)
+          snake->setDir(sf::Vector2f(1, 0));
+        else if (s_pos.x > c_pos.x + .5 * settings.snake_size)
+          snake->setDir(sf::Vector2f(-1, 0));
+        if (s_pos.y < c_pos.y - .5 * settings.snake_size)
+          snake->setDir(sf::Vector2f(0, 1));
+        else if (s_pos.y > c_pos.y + .5 * settings.snake_size)
+          snake->setDir(sf::Vector2f(0, -1));
+      }
       game_over |= !snake->update(time);
       if (lm_snake) lm_game_over |= !lm_snake->update(time);
       cm.update(snake);

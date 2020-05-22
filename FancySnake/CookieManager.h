@@ -23,6 +23,8 @@ class CookieManager {
 
   void respawnCookie();
 
+  const sf::Vector2f& getPosition();
+
  private:
   sf::FloatRect spawn_area;
   sf::RectangleShape cookie;
